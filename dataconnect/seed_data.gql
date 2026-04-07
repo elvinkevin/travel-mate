@@ -1,0 +1,122 @@
+mutation CreateDemoData @transaction @auth(level: USER, insecureReason: "This is a seed data mutation, intended for internal use and populating initial data for development/testing purposes. Not intended for direct client-side use.") {
+  user_insertMany(data: [
+    {
+      id: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      displayName: "Alice Smith",
+      email: "alice.smith@example.com",
+      createdAt: "2023-10-27T10:00:00Z",
+      bio: "An avid traveler and photographer.",
+      preferredActivities: ["Hiking", "Photography", "Kayaking"]
+    },
+    {
+      id: "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
+      displayName: "Bob Johnson",
+      email: "bob.johnson@example.com",
+      createdAt: "2023-10-27T10:05:00Z",
+      bio: "Loves adventure sports and exploring new cultures.",
+      preferredActivities: ["Skiing", "Scuba Diving", "Cultural Tours"]
+    }
+  ])
+  destination_insertMany(data: [
+    {
+      id: "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33",
+      name: "Machu Picchu",
+      location: "Peru",
+      description: "Ancient Inca citadel set high in the Andes Mountains.",
+      activities: ["Hiking", "Sightseeing"],
+      difficultyLevel: "Moderate",
+      bestTimeToVisit: "May to October",
+      imageUrls: ["https://example.com/machu_picchu1.jpg", "https://example.com/machu_picchu2.jpg"],
+      createdAt: "2023-10-27T10:10:00Z"
+    },
+    {
+      id: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+      name: "Great Barrier Reef",
+      location: "Australia",
+      description: "World's largest coral reef system.",
+      activities: ["Scuba Diving", "Snorkeling", "Boating"],
+      difficultyLevel: "Easy",
+      bestTimeToVisit: "June to November",
+      imageUrls: ["https://example.com/gbr1.jpg", "https://example.com/gbr2.jpg"],
+      createdAt: "2023-10-27T10:15:00Z"
+    }
+  ])
+  trip_insertMany(data: [
+    {
+      id: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      userId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      name: "Andean Adventure",
+      startDate: "2024-06-15",
+      endDate: "2024-06-25",
+      description: "A 10-day trip exploring the Peruvian Andes.",
+      isPublic: true,
+      imageUrls: ["https://example.com/andean1.jpg"],
+      createdAt: "2023-10-27T10:20:00Z"
+    },
+    {
+      id: "f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a66",
+      userId: "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
+      name: "Oceanic Discovery",
+      startDate: "2024-07-01",
+      endDate: "2024-07-10",
+      description: "Discovering the marine life of the Great Barrier Reef.",
+      isPublic: true,
+      imageUrls: ["https://example.com/oceanic1.jpg"],
+      createdAt: "2023-10-27T10:25:00Z"
+    }
+  ])
+  itineraryItem_insertMany(data: [
+    {
+      id: "g0eebc99-9c0b-4ef8-bb6d-6bb9bd380a77",
+      tripId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      destinationId: "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33",
+      date: "2024-06-18",
+      activity: "Machu Picchu Hike",
+      startTime: "07:00",
+      endTime: "16:00",
+      notes: "Full day hike to the citadel, bring water and snacks.",
+      imageUrls: ["https://example.com/hike1.jpg"],
+      createdAt: "2023-10-27T10:30:00Z"
+    },
+    {
+      id: "h0eebc99-9c0b-4ef8-bb6d-6bb9bd380a88",
+      tripId: "f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a66",
+      destinationId: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+      date: "2024-07-05",
+      activity: "Great Barrier Reef Scuba",
+      startTime: "09:00",
+      endTime: "14:00",
+      notes: "Two dives, saw amazing marine life!",
+      imageUrls: ["https://example.com/scuba1.jpg"],
+      createdAt: "2023-10-27T10:35:00Z"
+    }
+  ])
+  review_insertMany(data: [
+    {
+      id: "i0eebc99-9c0b-4ef8-bb6d-6bb9bd380a99",
+      userId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
+      destinationId: "c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33",
+      tripId: "e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55",
+      rating: 5,
+      title: "Unforgettable Hike to Machu Picchu",
+      content: "The views were breathtaking and the history was fascinating.",
+      isPublic: true,
+      createdAt: "2023-10-27T10:40:00Z",
+      updatedAt: "2023-10-27T10:40:00Z",
+      tips: "Go with a good guide to learn about the history."
+    },
+    {
+      id: "j0eebc99-9c0b-4ef8-bb6d-6bb9bd380b00",
+      userId: "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
+      destinationId: "d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44",
+      tripId: "f0eebc99-9c0b-4ef8-bb6d-6bb9bd380a66",
+      rating: 4,
+      title: "Great Dive Experience",
+      content: "Saw many colorful fish and corals. Water was a bit chilly but worth it.",
+      isPublic: true,
+      createdAt: "2023-10-27T10:45:00Z",
+      updatedAt: "2023-10-27T10:45:00Z",
+      tips: "Bring a wetsuit if you're sensitive to cold water."
+    }
+  ])
+}

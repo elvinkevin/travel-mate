@@ -1,0 +1,57 @@
+type User @table {
+  displayName: String!
+  createdAt: Timestamp!
+  email: String
+  photoUrl: String
+  bio: String
+  preferredActivities: [String]
+}
+
+type Destination @table {
+  name: String!
+  location: String! # Storing as a single string for city, country. Could be structured further if needed.
+  createdAt: Timestamp!
+  description: String
+  activities: [String]
+  difficultyLevel: String
+  bestTimeToVisit: String
+  imageUrls: [String]
+}
+
+type Trip @table {
+  user: User!
+  name: String!
+  startDate: Date!
+  endDate: Date!
+  createdAt: Timestamp!
+  isPublic: Boolean!
+  description: String
+  imageUrls: [String]
+}
+
+type ItineraryItem @table {
+  trip: Trip!
+  destination: Destination!
+  date: Date!
+  activity: String!
+  createdAt: Timestamp!
+  description: String
+  startTime: String # Storing as String to allow various formats like "9:00 AM" or "morning"
+  endTime: String   # Storing as String
+  notes: String
+  imageUrls: [String]
+}
+
+type Review @table {
+  user: User!
+  destination: Destination!
+  trip: Trip
+  rating: Int!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  isPublic: Boolean!
+  title: String
+  content: String
+  imageUrls: [String]
+  tips: String
+}

@@ -1,0 +1,64 @@
+query GetMyTrips @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users as it filters by authenticated user's ID.") {
+  trips(where: {userId: {eq_expr: "auth.uid"}}) {
+    id
+    name
+    startDate
+    endDate
+    isPublic
+    description
+    imageUrls
+    itineraryItems_on_trip {
+      id
+      activity
+      date
+      startTime
+      endTime
+      destination {
+        name
+        location
+      }
+    }
+  }
+}
+
+mutation CreateMyTrip($name: String!, $startDate: Date!, $endDate: Date!, $isPublic: Boolean!, $description: String, $imageUrls: [String!]) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users as it creates a trip for the authenticated user.") {
+  trip_insert(data: {
+    userId_expr: "auth.uid",
+    name: $name,
+    startDate: $startDate,
+    endDate: $endDate,
+    isPublic: $isPublic,
+    description: $description,
+    imageUrls: $imageUrls
+  }) {
+    id
+  }
+}
+
+query GetPublicDestinations @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public as it retrieves only public destination information.") {
+  destinations(where: {id: {eq: "some-public-destination-id"}}) {
+    id
+    name
+    location
+    description
+    activities
+    difficultyLevel
+    bestTimeToVisit
+    imageUrls
+  }
+}
+
+mutation AddDestinationReview($destinationId: UUID!, $rating: Int!, $isPublic: Boolean!, $title: String, $content: String, $tips: String, $imageUrls: [String!]) @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users as it creates a review for the authenticated user.") {
+  review_insert(data: {
+    userId_expr: "auth.uid",
+    destinationId: $destinationId,
+    rating: $rating,
+    isPublic: $isPublic,
+    title: $title,
+    content: $content,
+    tips: $tips,
+    imageUrls: $imageUrls
+  }) {
+    id
+  }
+}
