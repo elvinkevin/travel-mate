@@ -1,0 +1,16 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Public can read tours, but not change them
+    match /tours/{tourId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Public can ONLY create bookings. They cannot read others' info.
+    match /bookings/{bookingId} {
+      allow create: if true;
+      allow read, update, delete: if false; 
+    }
+  }
+}

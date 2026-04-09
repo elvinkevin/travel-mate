@@ -1,0 +1,10 @@
+# Firebase cache and logs
+.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# Node modules (if any)
+node_modules/
+
+# Local environment secrets
+.env
