@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// 2. Configuration (Paste your actual keys here)
+// 2. Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyDsq5O2YF4THk92MkGDWu4FAht1E7fcTRw",
   authDomain: "travelmate-pro-46da5.firebaseapp.com",
@@ -23,7 +23,7 @@ const validTours = ["Dubai safari", "Maldive", "thailand tour", "South Africa"];
 
 if (tourName && !validTours.includes(tourName)) {
     console.error("Invalid tour detected!");
-    window.location.href = "404.html"; // Manually trigger your custom error
+    window.location.href = "404.html"; 
 }
 // 4. Form Logic
 const bookingForm = document.getElementById('customBookingForm');
