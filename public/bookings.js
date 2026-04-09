@@ -19,7 +19,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const tourName = urlParams.get('tour');
 
 // Simple validation logic
-const validTours = ["Dubai Safari", "Maldive", "thailand tour", "south africa"]; 
+const validTours = ["Dubai safari", "Maldive", "thailand tour", "South Africa"]; 
 
 if (tourName && !validTours.includes(tourName)) {
     console.error("Invalid tour detected!");
