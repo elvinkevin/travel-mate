@@ -15,7 +15,16 @@ const firebaseConfig = {
 // 3. Initialize
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const urlParams = new URLSearchParams(window.location.search);
+const tourName = urlParams.get('tour');
 
+// Simple validation logic
+const validTours = ["Dubai Safari", "Maldive", "thailand tour", "south africa"]; 
+
+if (tourName && !validTours.includes(tourName)) {
+    console.error("Invalid tour detected!");
+    window.location.href = "404.html"; // Manually trigger your custom error
+}
 // 4. Form Logic
 const bookingForm = document.getElementById('customBookingForm');
 
@@ -23,23 +32,22 @@ bookingForm.addEventListener('submit', async (e) => {
     e.preventDefault(); 
     
     const bookingData = {
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        email: document.getElementById('userEmail').value,
-        phone: document.getElementById('phonenumber').value,
-        address: document.getElementById('address').value,
-        postalCode: document.getElementById('postalCode').value,
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        email: document.getElementById('userEmail').value.trim(),
+        phone: document.getElementById('phonenumber').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        postalCode: document.getElementById('postalCode').value.trim(),
         departureDate: document.getElementById('departure').value,
         adults: document.getElementById('numberofadults').value,
         paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value || "Not Selected",
-        specialRequests: document.getElementById('specialRequests').value,
+        specialRequests: document.getElementById('specialRequests').value.trim(),
         submittedAt: serverTimestamp() 
     };
 
     try {
         const docRef = await addDoc(collection(db, "bookings"), bookingData);
-        alert("Booking Securely Received! ID: " + docRef.id);
-        bookingForm.reset();
+       window.location.href = "success.html";
     } catch (error) {
         console.error("Firestore Error:", error);
         alert("Submission failed. Check Console (F12) for details.");
