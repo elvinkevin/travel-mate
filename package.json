@@ -4,8 +4,9 @@
   "description": "",
   "main": "firebase-config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "build": "echo 'No build needed'"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/elvinkevin/travel-mate.git"
