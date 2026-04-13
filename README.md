@@ -24,7 +24,7 @@ This project utilizes **GitHub Actions** for automated deployment.
 - **Process:** Automated build and deploy to Firebase Hosting.
 - **Security:** Deployment credentials are managed via encrypted GitHub Secrets.
 ## How to Run
-1. Clone the repo: `git clone [your-repo-link]`
+1. Clone the repo: `git clone [https://github.com/elvinkevin/travel-mate]`
 2. Install Firebase CLI: `npm install -g firebase-tools`
 3. Login and Deploy: `firebase login` then `firebase deploy`
 
