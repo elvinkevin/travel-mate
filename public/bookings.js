@@ -20,7 +20,6 @@ const tourName = urlParams.get('tour');
 
 // Simple validation logic
 const validTours = ["Dubai safari", "Maldive", "thailand tour", "South Africa"]; 
-
 if (tourName && !validTours.includes(tourName)) {
     console.error("Invalid tour detected!");
     window.location.href = "404.html"; 
@@ -42,14 +41,25 @@ bookingForm.addEventListener('submit', async (e) => {
         adults: document.getElementById('numberofadults').value,
         paymentMethod: document.querySelector('input[name="paymentMethod"]:checked')?.value || "Not Selected",
         specialRequests: document.getElementById('specialRequests').value.trim(),
+        tour: tourName,
         submittedAt: serverTimestamp() 
     };
 
     try {
-        const docRef = await addDoc(collection(db, "bookings"), bookingData);
-       window.location.href = "success.html";
-    } catch (error) {
-        console.error("Firestore Error:", error);
-        alert("Submission failed. Check Console (F12) for details.");
-    }
+    // Attempt the write
+    const docRef = await addDoc(collection(db, "bookings"), bookingData);
+    
+    // Log success for your own audit trails
+    console.log("Transaction Secure. ID:", docRef.id);
+    
+    sessionStorage.setItem('validBookingId', docRef.id);
+    
+    // Redirect with a Reference ID for verification
+    window.location.href = "success.html";
+    
+} catch (error) {
+    // Just give them a generic Error Code
+    console.error("Critical System Error:", error);
+    alert("System Busy: We could not process your booking. Please try again later. (Error Code: FB-ERR-01)");
+}
 });
