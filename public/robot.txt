@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemaps help crawlers find your pages faster
+Sitemap: https://travelmate-pro-46da5.web.app/sitemap.xml
