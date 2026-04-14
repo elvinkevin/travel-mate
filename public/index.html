@@ -181,7 +181,7 @@
                             </div>
                             <div class="carousel-item">
                                 <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80"
-                                    class="d-block w-100 rounded shadow" style="height: 250px; object-fit: cover;">
+                                    class="d-block w-100 rounded shadow" style="height: 250px; object-fit: cover;" alt="camera on a map">
                             </div>
                             <button class="carousel-control-prev" type="button" aria-label="Toggle mobile carousel navigation" data-bs-target="#aboutCarouselMobile"
                                 data-bs-slide="prev">
@@ -223,7 +223,7 @@
                         </div>
                         <div class="col-md-6">
                             <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80"
-                                class="img-fluid rounded shadow" style="height: 400px; width: 100%; object-fit: cover;">
+                                class="img-fluid rounded shadow" style="height: 400px; width: 100%; object-fit: cover;" alt="camera on a map">
                         </div>
                     </div>
                 </div>
@@ -381,17 +381,18 @@
             <div class="container" style="max-width: 600px;">
                 <h2 class="text-center mb-4">Get In Touch</h2>
                 <form>
+                    
                     <div class="mb-3">
                         <label class="form-label">Name</label>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" aria-label="Name input field" placeholder="Your full name">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Email Address</label>
-                        <input type="email" class="form-control">
+                        <input type="email" class="form-control" aria-label="Email input field" placeholder="Your email address">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Message</label>
-                        <textarea class="form-control" rows="4"></textarea>
+                        <textarea class="form-control" aria-label="Message input field" rows="4"></textarea>
                     </div>
                     <button type="submit" aria-label="Send message" class="btn btn-primary w-100">Send Message</button>
                 </form>
