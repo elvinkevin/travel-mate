@@ -4,7 +4,7 @@ import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.g
 
 // 2. Firebase Config
 
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: "AIzaSyDsq5O2YF4THk92MkGDWu4FAht1E7fcTRw",
     authDomain: "travelmate-pro-46da5.firebaseapp.com",
     projectId: "travelmate-pro-46da5",
