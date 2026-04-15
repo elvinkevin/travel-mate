@@ -16,14 +16,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 4. Load Function (Fetches tours from Firestore)
+// 4. Load Function
 async function loadTours() {
     const tourRow = document.getElementById('tour-row');
     if (!tourRow) return;
 
     try {
         const querySnapshot = await getDocs(collection(db, "tour"));
-        tourRow.innerHTML = ""; // Clear existing placeholder content
+        tourRow.innerHTML = ""; 
 
         querySnapshot.forEach((doc) => {
             const tour = doc.data();
@@ -52,66 +52,30 @@ async function loadTours() {
     }
 }
 
-// 5. Execution & UI Control Logic
+// 5. Execution
 document.addEventListener('DOMContentLoaded', () => {
-    // Start loading data immediately
     loadTours();
 
-    /**
-     * Helper function to initialize Bootstrap components safely.
-     * Since we use type="module", we must look at window.bootstrap 
-     * and wait for the CDN to finish loading.
-     */
-    const initControls = () => {
-        const bs = window.bootstrap;
+    // Custom logic for the search button inside the sidebar
+    const initCustomActions = () => {
+        const searchToursBtn = document.getElementById('searchToursBtn'); 
+        const offcanvasEl = document.getElementById('filterSidebar');
 
-        if (typeof bs !== 'undefined') {
-            
-            // --- Offcanvas Setup (Plan Your Trip) ---
-            const offcanvasEl = document.getElementById('filterSidebar');
-            const openBtn = document.getElementById('openPlanTrip'); 
-            const searchToursBtn = document.getElementById('searchToursBtn');
-            
-            if (offcanvasEl) {
-                const bsOffcanvas = new bs.Offcanvas(offcanvasEl);
-
-                // Open sidebar when clicking "Plan Your Trip"
-                if (openBtn) {
-                    openBtn.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        bsOffcanvas.show();
-                    });
+        if (searchToursBtn && offcanvasEl) {
+            searchToursBtn.addEventListener('click', () => {
+                // Manually hide because we want to trigger a scroll AFTER hide
+                const bs = window.bootstrap;
+                if (bs) {
+                    const bsOffcanvas = bs.Offcanvas.getInstance(offcanvasEl) || new bs.Offcanvas(offcanvasEl);
+                    bsOffcanvas.hide();
+                    
+                    setTimeout(() => {
+                        document.getElementById('Bookings')?.scrollIntoView({ behavior: 'smooth' });
+                    }, 400);
                 }
-
-                // Close sidebar and scroll when clicking the search button inside
-                if (searchToursBtn) {
-                    searchToursBtn.addEventListener('click', () => {
-                        bsOffcanvas.hide();
-                        setTimeout(() => {
-                            document.getElementById('Bookings')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }, 400);
-                    });
-                }
-            }
-
-            // --- Navbar Mobile Toggler Setup ---
-            const navToggler = document.querySelector('.navbar-toggler');
-            const navCollapseEl = document.getElementById('navbarNav'); 
-            
-            if (navToggler && navCollapseEl) {
-                // Initialize as a collapse instance manually for CSP compatibility
-                const bsCollapse = new bs.Collapse(navCollapseEl, { toggle: false });
-                navToggler.addEventListener('click', () => {
-                    bsCollapse.toggle();
-                });
-            }
-
-        } else {
-            // Bootstrap not yet attached to window; check again in 100ms
-            setTimeout(initControls, 100);
+            });
         }
     };
 
-    // Run the control initialization
-    initControls();
+    initCustomActions();
 });
