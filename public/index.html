@@ -87,8 +87,9 @@
     <header class="bg-light-subtle p-5 text-center">
         <h1 class="display-4 fw-bold">Explore The World With TravelMate</h1>
         <p class="lead">Unforgettable journeys crafted with care</p>
-        <button class="btn btn-primary btn-lg" type="button" aria-label="Toggle filter sidebar"
-            data-bs-toggle="offcanvas" data-bs-target="#filterSidebar">Plan Your Trip</button>
+        <button class="btn btn-primary btn-lg" type="button" id="openPlanTrip" aria-label="Open filter sidebar">
+            Plan Your Trip
+        </button>
         <div class="offcanvas offcanvas-start" tabindex="-1" id="filterSidebar" aria-labelledby="filterSidebarLabel">
             <div class="offcanvas-header border-bottom bg-secondary bg-gradient">
                 <h5 class="offcanvas-title " id="filterSidebarLabel">Find Your Destination</h5>
@@ -408,23 +409,25 @@
             <div class="container" style="max-width: 600px;">
                 <h2 class="text-center mb-4">Get In Touch</h2>
                 <form>
+                    <div class="mb-3">
+                        <label for="contact-name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="contact-name" name="full_name"
+                            placeholder="Your full name" required>
+                    </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <input type="text" class="form-control" aria-label="Name input field"
-                            placeholder="Your full name">
+                        <label for="contact-email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="contact-email" name="email_address"
+                            placeholder="Your email address" required>
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label">Email Address</label>
-                        <input type="email" class="form-control" aria-label="Email input field"
-                            placeholder="Your email address">
+                        <label for="contact-message" class="form-label">Message</label>
+                        <textarea class="form-control" id="contact-message" name="message" rows="4" required></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Message</label>
-                        <textarea class="form-control" aria-label="Message input field" rows="4"></textarea>
-                    </div>
-                    <button type="submit" aria-label="Send message" class="btn btn-primary w-100">Send Message</button>
-                </form>
+
+                    <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                </form>>
             </div>
         </section>
     </main>

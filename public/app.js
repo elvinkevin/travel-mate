@@ -1,4 +1,4 @@
-// 1. Import tools (Must be at the top)
+// 1. Import tools (Firebase v10.8.0)
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
@@ -16,14 +16,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// 4. Load Function
+// 4. Load Function (Fetches tours from Firestore)
 async function loadTours() {
     const tourRow = document.getElementById('tour-row');
     if (!tourRow) return;
 
     try {
         const querySnapshot = await getDocs(collection(db, "tour"));
-        tourRow.innerHTML = "";
+        tourRow.innerHTML = ""; // Clear existing placeholder content
 
         querySnapshot.forEach((doc) => {
             const tour = doc.data();
@@ -32,14 +32,14 @@ async function loadTours() {
                     <div class="card h-100 shadow-sm border-0">
                         <img src="${tour.imageUrl || tour.imageurl}" class="card-img-top" alt="${tour.title}" style="height: 200px; object-fit: cover;">
                         <div class="card-body">
-                            <h5 class="card-title">${tour.title || 'Dubai Safari'}</h5>
-                            <p class="card-text text-muted small">${tour.description || 'Enjoy luxury shopping and desert safaris.'}</p>
+                            <h5 class="card-title">${tour.title || 'Adventure Tour'}</h5>
+                            <p class="card-text text-muted small">${tour.description || 'Discover amazing places.'}</p>
                             <div class="row align-items-center">
                                 <div class="col-6">
                                     <h4 class="mb-0">$${tour.price || '0.00'}</h4>
                                 </div>
                                 <div class="col-6 text-end">
-                                  <a href="booking.html?tour=${encodeURIComponent(tour.title || 'Dubai Safari')}" class="btn btn-primary btn-sm">Book Now</a>          
+                                  <a href="booking.html?tour=${encodeURIComponent(tour.title || 'Adventure')}" class="btn btn-primary btn-sm">Book Now</a>          
                                 </div>
                             </div>
                         </div>
@@ -48,36 +48,70 @@ async function loadTours() {
         });
     } catch (error) {
         console.error("Firebase Error:", error);
-        tourRow.innerHTML = `<p class="text-danger text-center">Failed to load data. Please check your Firestore collection name.</p>`;
+        if (tourRow) tourRow.innerHTML = `<p class="text-danger text-center">Failed to load data.</p>`;
     }
 }
 
-// 5. Execution & Event Listeners
+// 5. Execution & UI Control Logic
 document.addEventListener('DOMContentLoaded', () => {
-    // Run the tour loader
+    // Start loading data immediately
     loadTours();
 
-    // Search Tours Button Handler
-    const searchBtn = document.getElementById('searchToursBtn');
-    if (searchBtn) {
-        searchBtn.addEventListener('click', function () {
-            // Accessing bootstrap via window to ensure compatibility with modules
-            const offcanvasElement = document.querySelector('.offcanvas');
-            const bsOffcanvas = window.bootstrap.Offcanvas.getInstance(offcanvasElement);
+    /**
+     * Helper function to initialize Bootstrap components safely.
+     * Since we use type="module", we must look at window.bootstrap 
+     * and wait for the CDN to finish loading.
+     */
+    const initControls = () => {
+        const bs = window.bootstrap;
 
-            if (bsOffcanvas) {
-                bsOffcanvas.hide();
-            }
+        if (typeof bs !== 'undefined') {
+            
+            // --- Offcanvas Setup (Plan Your Trip) ---
+            const offcanvasEl = document.getElementById('filterSidebar');
+            const openBtn = document.getElementById('openPlanTrip'); 
+            const searchToursBtn = document.getElementById('searchToursBtn');
+            
+            if (offcanvasEl) {
+                const bsOffcanvas = new bs.Offcanvas(offcanvasEl);
 
-            setTimeout(() => {
-                const bookingsSection = document.getElementById('Bookings');
-                if (bookingsSection) {
-                    bookingsSection.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                // Open sidebar when clicking "Plan Your Trip"
+                if (openBtn) {
+                    openBtn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        bsOffcanvas.show();
                     });
                 }
-            }, 400);
-        });
-    }
+
+                // Close sidebar and scroll when clicking the search button inside
+                if (searchToursBtn) {
+                    searchToursBtn.addEventListener('click', () => {
+                        bsOffcanvas.hide();
+                        setTimeout(() => {
+                            document.getElementById('Bookings')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 400);
+                    });
+                }
+            }
+
+            // --- Navbar Mobile Toggler Setup ---
+            const navToggler = document.querySelector('.navbar-toggler');
+            const navCollapseEl = document.getElementById('navbarNav'); 
+            
+            if (navToggler && navCollapseEl) {
+                // Initialize as a collapse instance manually for CSP compatibility
+                const bsCollapse = new bs.Collapse(navCollapseEl, { toggle: false });
+                navToggler.addEventListener('click', () => {
+                    bsCollapse.toggle();
+                });
+            }
+
+        } else {
+            // Bootstrap not yet attached to window; check again in 100ms
+            setTimeout(initControls, 100);
+        }
+    };
+
+    // Run the control initialization
+    initControls();
 });
