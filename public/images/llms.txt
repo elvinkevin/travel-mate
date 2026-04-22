@@ -1,0 +1,12 @@
+# TravelMate
+
+> Smart itinerary planner and global tour booking platform.
+
+## Description
+TravelMate helps travelers book unforgettable tours and trips. 
+Use our smart tools to organize vacation packages and explore the world.
+
+## Key Features
+- Smart Itinerary Planning
+- Global Tour Booking
+- Vacation Package Organization
